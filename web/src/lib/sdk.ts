@@ -1,4 +1,4 @@
-import { AdminClient, EvaluationClient } from '../../packages/sdk/src';
+import { AdminClient, EvaluationClient } from '../../../packages/sdk/src';
 import { getEnvironmentById, loadPersistedEnvironmentId } from './environments';
 
 export const SDK_ENABLED = import.meta.env.VITE_ENABLE_SDK_INTEGRATION === 'true';
