@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-weapon_x}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-weapon_x}
+      POSTGRES_DB: ${POSTGRES_DB:-weapon_x}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-weapon_x}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${PORT:-3001}:3001"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-weapon_x}:${POSTGRES_PASSWORD:-weapon_x}@db:5432/${POSTGRES_DB:-weapon_x}?schema=public
+      PORT: 3001
+    env_file:
+      - .env
+
+volumes:
+  pgdata:

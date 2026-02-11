@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 215 25% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 12%;
+
+    --primary: 220 70% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 215 20% 95%;
+    --secondary-foreground: 215 25% 12%;
+
+    --muted: 210 15% 95%;
+    --muted-foreground: 215 12% 46%;
+
+    --accent: 210 30% 94%;
+    --accent-foreground: 215 25% 12%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 20% 90%;
+    --input: 214 20% 90%;
+    --ring: 220 70% 50%;
+
+    --radius: 0.5rem;
+
+    /* Custom tokens */
+    --sidebar-bg: 220 50% 10%;
+    --sidebar-bg-hover: 220 45% 15%;
+    --sidebar-bg-active: 220 45% 20%;
+    --sidebar-fg: 210 30% 80%;
+    --sidebar-fg-active: 0 0% 100%;
+    --sidebar-border: 220 40% 14%;
+    --sidebar-accent-color: 210 80% 60%;
+
+    --badge-blue-bg: 214 90% 95%;
+    --badge-blue-fg: 220 70% 45%;
+    --badge-blue-border: 214 70% 88%;
+
+    --badge-green-bg: 142 60% 94%;
+    --badge-green-fg: 142 60% 32%;
+    --badge-green-border: 142 50% 85%;
+
+    --badge-yellow-bg: 38 90% 94%;
+    --badge-yellow-fg: 32 80% 38%;
+    --badge-yellow-border: 38 70% 85%;
+
+    --badge-red-bg: 0 70% 95%;
+    --badge-red-fg: 0 65% 42%;
+    --badge-red-border: 0 60% 88%;
+
+    --badge-purple-bg: 270 60% 95%;
+    --badge-purple-fg: 270 55% 42%;
+    --badge-purple-border: 270 50% 88%;
+
+    --badge-gray-bg: 215 15% 95%;
+    --badge-gray-fg: 215 15% 40%;
+    --badge-gray-border: 215 15% 88%;
+
+    --surface-raised: 210 25% 97%;
+    --surface-code: 210 20% 96%;
+
+    --toggle-active: 220 70% 50%;
+    --toggle-inactive: 215 12% 75%;
+
+    --rule-accent: 220 70% 50%;
+
+    --sidebar-background: 220 50% 10%;
+    --sidebar-foreground: 210 30% 80%;
+    --sidebar-primary: 220 50% 10%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 45% 20%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 40% 14%;
+    --sidebar-ring: 220 70% 50%;
+  }
+
+  .dark {
+    --background: 220 25% 7%;
+    --foreground: 210 20% 92%;
+
+    --card: 220 25% 10%;
+    --card-foreground: 210 20% 92%;
+
+    --popover: 220 25% 10%;
+    --popover-foreground: 210 20% 92%;
+
+    --primary: 215 70% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 20% 15%;
+    --secondary-foreground: 210 20% 92%;
+
+    --muted: 220 15% 15%;
+    --muted-foreground: 215 12% 55%;
+
+    --accent: 220 20% 18%;
+    --accent-foreground: 210 20% 92%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 20% 92%;
+
+    --border: 220 15% 18%;
+    --input: 220 15% 22%;
+    --ring: 215 70% 55%;
+
+    --surface-raised: 220 20% 12%;
+    --surface-code: 220 25% 12%;
+
+    --toggle-active: 215 70% 55%;
+    --toggle-inactive: 220 12% 35%;
+
+    --badge-blue-bg: 214 50% 18%;
+    --badge-blue-fg: 214 80% 70%;
+    --badge-blue-border: 214 40% 25%;
+
+    --badge-green-bg: 142 30% 15%;
+    --badge-green-fg: 142 55% 65%;
+    --badge-green-border: 142 30% 22%;
+
+    --badge-yellow-bg: 38 40% 16%;
+    --badge-yellow-fg: 38 70% 65%;
+    --badge-yellow-border: 38 35% 24%;
+
+    --badge-red-bg: 0 35% 16%;
+    --badge-red-fg: 0 55% 65%;
+    --badge-red-border: 0 30% 24%;
+
+    --badge-purple-bg: 270 30% 16%;
+    --badge-purple-fg: 270 50% 70%;
+    --badge-purple-border: 270 28% 24%;
+
+    --badge-gray-bg: 215 15% 16%;
+    --badge-gray-fg: 215 12% 65%;
+    --badge-gray-border: 215 12% 24%;
+
+    --sidebar-bg: 220 30% 6%;
+    --sidebar-bg-hover: 220 25% 12%;
+    --sidebar-bg-active: 220 25% 16%;
+    --sidebar-fg: 210 20% 65%;
+    --sidebar-fg-active: 0 0% 95%;
+    --sidebar-border: 220 20% 12%;
+    --sidebar-accent-color: 215 70% 55%;
+
+    --sidebar-background: 220 30% 6%;
+    --sidebar-foreground: 210 20% 65%;
+    --sidebar-primary: 220 30% 6%;
+    --sidebar-primary-foreground: 0 0% 95%;
+    --sidebar-accent: 220 25% 16%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-ring: 215 70% 55%;
+
+    --rule-accent: 215 70% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+}

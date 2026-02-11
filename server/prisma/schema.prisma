@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ConfigType {
+  BOOLEAN
+  JSON
+  STRING
+  SECRET
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+enum AuditEntityType {
+  CONFIGURATION
+  RULE
+}
+
+model Project {
+  reference  String          @id @db.VarChar(100)
+  name       String          @db.VarChar(255)
+  created_at DateTime        @default(now()) @db.Timestamptz
+  updated_at DateTime        @updatedAt @db.Timestamptz
+
+  configurations  Configuration[]
+  authentications Authentication[]
+  audit_logs      AuditLog[]
+
+  @@map("projects")
+}
+
+model Role {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique @db.VarChar(100)
+  permissions String[]
+  created_at  DateTime @default(now()) @db.Timestamptz
+  updated_at  DateTime @updatedAt @db.Timestamptz
+
+  authentications Authentication[]
+
+  @@map("roles")
+}
+
+model Authentication {
+  id                String    @id @default(uuid()) @db.Uuid
+  project_reference String    @db.VarChar(100)
+  role_id           String    @db.Uuid
+  secret_key        String    @unique @db.VarChar(512)
+  email             String    @db.VarChar(255)
+  description       String    @default("") @db.Text
+  is_active         Boolean   @default(true)
+  expiration_date   DateTime? @db.Timestamptz
+  created_at        DateTime  @default(now()) @db.Timestamptz
+  updated_at        DateTime  @updatedAt @db.Timestamptz
+  removed_at        DateTime? @db.Timestamptz
+
+  project    Project    @relation(fields: [project_reference], references: [reference], onDelete: Cascade)
+  role       Role       @relation(fields: [role_id], references: [id])
+  audit_logs AuditLog[]
+
+  @@index([project_reference])
+  @@index([role_id])
+  @@map("authentications")
+}
+
+model Configuration {
+  id                String     @id @default(uuid()) @db.Uuid
+  project_reference String     @db.VarChar(100)
+  key               String     @db.VarChar(255)
+  description       String     @default("") @db.Text
+  type              ConfigType
+  is_active         Boolean    @default(true)
+  default_value     Json
+  validation_schema Json       @default("{}")
+  created_at        DateTime   @default(now()) @db.Timestamptz
+  updated_at        DateTime   @updatedAt @db.Timestamptz
+
+  project Project @relation(fields: [project_reference], references: [reference], onDelete: Cascade)
+  rules   Rule[]
+
+  @@unique([project_reference, key])
+  @@index([project_reference])
+  @@index([key])
+  @@map("configurations")
+}
+
+model Rule {
+  id               String        @id @default(uuid()) @db.Uuid
+  configuration_id String        @db.Uuid
+  name             String        @db.VarChar(255)
+  conditions       Json
+  return_value     Json
+  priority             Int           @default(0)
+  rollout_percentage   Int           @default(100)
+  created_at           DateTime      @default(now()) @db.Timestamptz
+  updated_at       DateTime      @updatedAt @db.Timestamptz
+
+  configuration Configuration @relation(fields: [configuration_id], references: [id], onDelete: Cascade)
+
+  @@index([configuration_id])
+  @@map("rules")
+}
+
+model AuditLog {
+  id                  String          @id @default(uuid()) @db.Uuid
+  project_reference   String          @db.VarChar(100)
+  authentication_id   String          @db.Uuid
+  action              AuditAction
+  entity_type         AuditEntityType
+  entity_id           String          @db.Uuid
+  actor_email         String          @db.VarChar(255)
+  previous_value      Json            @default("{}")
+  new_value           Json            @default("{}")
+  metadata            Json            @default("{}")
+  created_at          DateTime        @default(now()) @db.Timestamptz
+
+  project Project        @relation(fields: [project_reference], references: [reference], onDelete: Cascade)
+  actor   Authentication @relation(fields: [authentication_id], references: [id])
+
+  @@index([project_reference])
+  @@index([authentication_id])
+  @@index([entity_type, entity_id])
+  @@map("audit_logs")
+}

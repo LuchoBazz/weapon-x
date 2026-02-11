@@ -1,0 +1,54 @@
+{
+  "name": "weapon-x-sdk",
+  "version": "1.0.0",
+  "description": "Typed TypeScript SDK for the Weapon-X Feature Flag & Configuration Management API",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "crypto-js": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.1.0",
+    "globals": "^15.15.0",
+    "prettier": "^3.5.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.0",
+    "typescript-eslint": "^8.25.0",
+    "vitest": "^3.2.4"
+  },
+  "keywords": [
+    "feature-flags",
+    "configuration",
+    "sdk",
+    "weapon-x"
+  ],
+  "license": "MIT"
+}
