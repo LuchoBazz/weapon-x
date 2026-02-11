@@ -16,6 +16,8 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      axios: path.resolve(__dirname, "./node_modules/axios"),
+      "crypto-js": path.resolve(__dirname, "./node_modules/crypto-js"),
     },
   },
 }));
