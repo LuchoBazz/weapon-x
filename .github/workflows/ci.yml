@@ -43,7 +43,7 @@ jobs:
       - run: npm run build
 
   frontend:
-    name: Frontend – Unit Tests
+    name: Frontend – Test & Build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -57,3 +57,4 @@ jobs:
           cache-dependency-path: web/package-lock.json
       - run: npm install
       - run: npx vitest run
+      - run: npm run build

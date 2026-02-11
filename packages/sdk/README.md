@@ -319,7 +319,6 @@ packages/sdk/src/
 ├── admin-client.ts             # AdminClient: CRUD for projects, roles, auths, configs, rules
 ├── evaluation-client.ts        # EvaluationClient: async POST /v1/evaluate
 ├── sync-evaluation-client.ts   # SyncEvaluationClient: singleton, sync evaluation engine
-├── client.ts                   # WeaponXClient: legacy facade (.admin / .evaluation) — DEPRECATED
 ├── http.ts                     # Shared Axios factory with error interceptor
 ├── errors.ts                   # WeaponXApiError class
 ├── sha256.ts                   # Deterministic rollout hash (crypto-js)
@@ -440,7 +439,6 @@ try {
 - ❌ **Do not modify `sha256.ts`** — the hashing algorithm must stay identical to the backend's `crypto` implementation.
 - ❌ **Do not instantiate `SyncEvaluationClient` with `new`** — always use `getInstance()`.
 - ❌ **Do not call `evaluate()` before `sync()`** — results will be empty/incorrect.
-- ❌ **Do not use `WeaponXClient`** — it is deprecated; use `AdminClient` and `EvaluationClient` directly.
 
 ---
 

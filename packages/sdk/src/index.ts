@@ -1,7 +1,6 @@
 export { AdminClient } from './admin-client';
 export { EvaluationClient } from './evaluation-client';
 export { SyncEvaluationClient } from './sync-evaluation-client';
-export { WeaponXClient } from './client';
 export { WeaponXApiError } from './errors';
 export { createHttpClient } from './http';
 export type {
