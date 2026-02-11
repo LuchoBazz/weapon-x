@@ -1,5 +1,3 @@
-// ── Enums & Primitives ──
-
 export type ConfigType = 'BOOLEAN' | 'JSON' | 'STRING' | 'SECRET';
 
 export type Operator =
