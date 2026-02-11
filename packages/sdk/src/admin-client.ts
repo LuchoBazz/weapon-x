@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import type { AxiosInstance } from 'axios';
 import { createHttpClient } from './http';
 import type {
   WeaponXClientOptions,
@@ -26,14 +26,10 @@ export class AdminClient {
     this.http = createHttpClient(options);
   }
 
-  // ── Configurations ──
-
   async createConfig(data: CreateConfigRequest): Promise<Config> {
     const { data: res } = await this.http.post<ApiDataResponse<Config>>('/v1/admin/configs', data);
     return res.data;
   }
-
-  // ── Rules ──
 
   async assignRule(configKey: string, data: CreateRuleRequest): Promise<Rule> {
     const { data: res } = await this.http.post<ApiDataResponse<Rule>>(
@@ -42,8 +38,6 @@ export class AdminClient {
     );
     return res.data;
   }
-
-  // ── Projects ──
 
   async createProject(data: CreateProjectRequest): Promise<Project> {
     const { data: res } = await this.http.post<ApiDataResponse<Project>>('/v1/admin/projects', data);
@@ -74,8 +68,6 @@ export class AdminClient {
     await this.http.delete(`/v1/admin/projects/${encodeURIComponent(reference)}`);
   }
 
-  // ── Roles ──
-
   async createRole(data: CreateRoleRequest): Promise<Role> {
     const { data: res } = await this.http.post<ApiDataResponse<Role>>('/v1/admin/roles', data);
     return res.data;
@@ -104,8 +96,6 @@ export class AdminClient {
   async deleteRole(id: string): Promise<void> {
     await this.http.delete(`/v1/admin/roles/${encodeURIComponent(id)}`);
   }
-
-  // ── Authentications ──
 
   async createAuthentication(data: CreateAuthenticationRequest): Promise<Authentication> {
     const { data: res } = await this.http.post<ApiDataResponse<Authentication>>('/v1/admin/authentications', data);
@@ -137,8 +127,6 @@ export class AdminClient {
   async deleteAuthentication(id: string): Promise<void> {
     await this.http.delete(`/v1/admin/authentications/${encodeURIComponent(id)}`);
   }
-
-  // ── Introspection ──
 
   async introspect(token: string): Promise<IntrospectResponse> {
     try {

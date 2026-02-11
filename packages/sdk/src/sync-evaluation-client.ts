@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import type { AxiosInstance } from 'axios';
 import { createHttpClient } from './http';
 import { computeRolloutHash } from './sha256';
 import type {
@@ -10,17 +10,7 @@ import type {
   ApiDataResponse,
 } from './types';
 
-/**
- * High-performance client-side evaluation engine.
- *
- * Singleton that fetches the full configuration manifest once, caches it
- * in-memory, and resolves flags locally with **zero latency** — producing
- * results mathematically identical to the server's `EvaluateUseCase`.
- *
- * The `evaluate` method is strictly **synchronous**.
- */
 export class SyncEvaluationClient {
-  // ── Singleton ──
   private static instance: SyncEvaluationClient | null = null;
 
   private http: AxiosInstance;
@@ -38,17 +28,10 @@ export class SyncEvaluationClient {
     return SyncEvaluationClient.instance;
   }
 
-  /** Reset singleton — primarily for testing. */
   static resetInstance(): void {
     SyncEvaluationClient.instance = null;
   }
 
-  // ── Synchronisation ──
-
-  /**
-   * Fetch the full configuration manifest for a project and populate
-   * the in-memory cache. Must be called (and awaited) before `evaluate`.
-   */
   async sync(projectReference: string): Promise<void> {
     const { data: res } = await this.http.get<ApiDataResponse<Config[]>>(
       `/v1/admin/projects/${encodeURIComponent(projectReference)}/configs`,
@@ -60,22 +43,14 @@ export class SyncEvaluationClient {
     this.initialized = true;
   }
 
-  /** Whether the cache has been populated at least once. */
   isInitialized(): boolean {
     return this.initialized;
   }
 
-  /** Return raw cached configs (read-only snapshot). */
   getCachedConfigs(): ReadonlyMap<string, Config> {
     return this.cache;
   }
 
-  // ── Local Evaluation Engine ──
-
-  /**
-   * Synchronous flag evaluation — exact port of
-   * `server/src/usecases/evaluate.usecase.ts`.
-   */
   evaluate(data: EvaluateRequest): Record<string, EvaluationResult> {
     const results: Record<string, EvaluationResult> = {};
 
@@ -124,17 +99,9 @@ export class SyncEvaluationClient {
     return results;
   }
 
-  // ── Hashing ──
-
-  /**
-   * Deterministic hash: SHA-256 of identifier+ruleId, mapped to 0-99.
-   * Fully synchronous — uses pure-JS SHA-256.
-   */
   computeRolloutHash(identifier: string, ruleId: string): number {
     return computeRolloutHash(identifier, ruleId);
   }
-
-  // ── Condition Matching ──
 
   private evaluateCondition(contextValue: unknown, operator: string, conditionValue: string | string[]): boolean {
     const cv = String(contextValue || '').toLowerCase();

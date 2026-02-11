@@ -41,8 +41,6 @@ describe('SyncEvaluationClient', () => {
     client = SyncEvaluationClient.getInstance({ baseUrl: 'http://localhost:3001' });
   });
 
-  // ── Singleton ──
-
   it('should return the same instance on repeated calls', () => {
     const a = SyncEvaluationClient.getInstance({ baseUrl: 'http://localhost:3001' });
     const b = SyncEvaluationClient.getInstance({ baseUrl: 'http://localhost:3001' });
@@ -57,8 +55,6 @@ describe('SyncEvaluationClient', () => {
     expect(a).not.toBe(b);
   });
 
-  // ── Sync ──
-
   it('should fetch configs and populate cache on sync', async () => {
     const configs = [makeConfig({ key: 'flag_a' }), makeConfig({ key: 'flag_b' })];
     mockHttp.get.mockResolvedValue({ data: { data: configs } });
@@ -70,19 +66,14 @@ describe('SyncEvaluationClient', () => {
     expect(mockHttp.get).toHaveBeenCalledWith('/v1/admin/projects/PROJ_A/configs');
   });
 
-  // ── Evaluation: synchronous contract ──
-
   it('evaluate should return synchronously (not a Promise)', async () => {
     mockHttp.get.mockResolvedValue({ data: { data: [makeConfig()] } });
     await client.sync('P');
 
     const result = client.evaluate({ filters: {}, keys: ['feature_x'] });
-    // Must NOT be a Promise
     expect(result).not.toBeInstanceOf(Promise);
     expect(result['feature_x']).toBeDefined();
   });
-
-  // ── Evaluation: Disabled ──
 
   it('should return DISABLED for inactive configs', async () => {
     mockHttp.get.mockResolvedValue({ data: { data: [makeConfig({ is_active: false })] } });
@@ -91,8 +82,6 @@ describe('SyncEvaluationClient', () => {
     const result = client.evaluate({ filters: {}, keys: ['feature_x'] });
     expect(result['feature_x']).toEqual({ value: null, rule_id: 'none', reason: 'DISABLED' });
   });
-
-  // ── Evaluation: Fallback ──
 
   it('should return FALLBACK when no rules match', async () => {
     mockHttp.get.mockResolvedValue({
@@ -111,8 +100,6 @@ describe('SyncEvaluationClient', () => {
     const result = client.evaluate({ filters: {}, keys: ['unknown_key'] });
     expect(result['unknown_key']).toEqual({ value: null, rule_id: 'none', reason: 'FALLBACK' });
   });
-
-  // ── Evaluation: Match ──
 
   it('should return MATCH when rule conditions are met', async () => {
     mockHttp.get.mockResolvedValue({ data: { data: [makeConfig({ rules: [makeRule()] })] } });
@@ -136,8 +123,6 @@ describe('SyncEvaluationClient', () => {
     const result = client.evaluate({ filters: { c: 'x' }, keys: ['feature_x'] });
     expect(result['feature_x'].rule_id).toBe('rule-1');
   });
-
-  // ── Operators ──
 
   it.each([
     ['NOT_EQUALS', { attribute: 'env', operator: 'NOT_EQUALS', value: 'prod' }, { env: 'staging' }, 'MATCH'],
@@ -166,8 +151,6 @@ describe('SyncEvaluationClient', () => {
     const result = client.evaluate({ filters: { x: 'anything' }, keys: ['feature_x'] });
     expect(result['feature_x'].reason).toBe('FALLBACK');
   });
-
-  // ── Rollout ──
 
   describe('rollout percentage', () => {
     it('should always match at 100%', async () => {
@@ -241,8 +224,6 @@ describe('SyncEvaluationClient', () => {
     });
   });
 
-  // ── Multi-condition (AND) ──
-
   it('should require ALL conditions to match', async () => {
     mockHttp.get.mockResolvedValue({
       data: { data: [makeConfig({
@@ -260,8 +241,6 @@ describe('SyncEvaluationClient', () => {
     expect(client.evaluate({ filters: { country: 'CO', tier: 'VIP' }, keys: ['feature_x'] })['feature_x'].reason).toBe('MATCH');
   });
 
-  // ── Multiple configs ──
-
   it('should evaluate multiple configs independently', async () => {
     mockHttp.get.mockResolvedValue({
       data: { data: [
@@ -275,8 +254,6 @@ describe('SyncEvaluationClient', () => {
     expect(result['flag_a'].reason).toBe('DISABLED');
     expect(result['flag_b'].value).toBe(42);
   });
-
-  // ── SECRET type ──
 
   it('should cache and evaluate a SECRET config like any other type', async () => {
     mockHttp.get.mockResolvedValue({

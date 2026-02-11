@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import type { AxiosInstance } from 'axios';
 import { createHttpClient } from './http';
 import type { WeaponXClientOptions, EvaluateRequest, EvaluateResponse } from './types';
 

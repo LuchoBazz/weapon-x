@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosError } from 'axios';
+import type { AxiosInstance, AxiosError } from 'axios';
+import axios from 'axios';
 import { WeaponXApiError } from './errors';
 import type { WeaponXClientOptions, ApiErrorResponse } from './types';
 

@@ -25,8 +25,6 @@ describe('AdminClient', () => {
     expect(axios.create).toHaveBeenCalledWith(expect.objectContaining({ baseURL: 'http://localhost:3001' }));
   });
 
-  // ── Configs ──
-
   describe('createConfig', () => {
     it('should POST to /v1/admin/configs and return unwrapped data', async () => {
       const config = { id: 'cfg-1', key: 'flag' };
@@ -49,8 +47,6 @@ describe('AdminClient', () => {
       expect(result.default_value).toBe('decrypted-value');
     });
   });
-
-  // ── Rules ──
 
   describe('assignRule', () => {
     it('should POST to /v1/admin/configs/:key/rules', async () => {
@@ -88,8 +84,6 @@ describe('AdminClient', () => {
       expect(mockHttp.post).toHaveBeenCalledWith(`/v1/admin/configs/${encodeURIComponent('key/with spaces')}/rules`, expect.any(Object));
     });
   });
-
-  // ── Projects ──
 
   describe('createProject', () => {
     it('should POST and return data', async () => {
@@ -141,8 +135,6 @@ describe('AdminClient', () => {
     });
   });
 
-  // ── Roles ──
-
   describe('createRole', () => {
     it('should POST and return data', async () => {
       mockHttp.post.mockResolvedValue({ data: { data: { id: 'r1', name: 'admin' } } });
@@ -184,8 +176,6 @@ describe('AdminClient', () => {
       expect(mockHttp.delete).toHaveBeenCalledWith('/v1/admin/roles/r1');
     });
   });
-
-  // ── Authentications ──
 
   describe('createAuthentication', () => {
     it('should POST and return data with role', async () => {
@@ -236,8 +226,6 @@ describe('AdminClient', () => {
       expect(mockHttp.delete).toHaveBeenCalledWith('/v1/admin/authentications/a1');
     });
   });
-
-  // ── Introspection ──
 
   describe('introspect', () => {
     it('should POST /v1/auth/introspect with token header and return response', async () => {

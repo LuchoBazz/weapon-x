@@ -14,8 +14,6 @@ export type Operator =
 
 export type EvaluationReason = 'MATCH' | 'FALLBACK' | 'DISABLED' | 'ROLLOUT_EXCLUDED';
 
-// ── Domain Models ──
-
 export interface Condition {
   attribute: string;
   operator: Operator;
@@ -48,8 +46,6 @@ export interface Config {
   rules?: Rule[];
 }
 
-// ── Project Models ──
-
 export interface Project {
   reference: string;
   name: string;
@@ -68,8 +64,6 @@ export interface UpdateProjectRequest {
   name: string;
 }
 
-// ── Role Models ──
-
 export interface Role {
   id: string;
   name: string;
@@ -87,8 +81,6 @@ export interface UpdateRoleRequest {
   name?: string;
   permissions?: string[];
 }
-
-// ── Authentication Models ──
 
 export interface Authentication {
   id: string;
@@ -123,8 +115,6 @@ export interface UpdateAuthenticationRequest {
   email?: string;
 }
 
-// ── Request DTOs ──
-
 export interface CreateConfigRequest {
   project_reference: string;
   key: string;
@@ -149,8 +139,6 @@ export interface EvaluateRequest {
   identifier?: string;
 }
 
-// ── Response Wrappers ──
-
 export interface ApiDataResponse<T> {
   data: T;
 }
@@ -166,8 +154,6 @@ export interface EvaluateResponse {
   data: Record<string, EvaluationResult>;
 }
 
-// ── Error ──
-
 export interface ApiValidationDetail {
   message: string;
   path: (string | number)[];
@@ -179,14 +165,10 @@ export interface ApiErrorResponse {
   details?: ApiValidationDetail[];
 }
 
-// ── Introspection ──
-
 export interface IntrospectResponse {
   active: boolean;
   exp?: number;
 }
-
-// ── Client Options ──
 
 export interface WeaponXClientOptions {
   /** Base URL of the Weapon-X API (e.g. "http://localhost:3001") */
