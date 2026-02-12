@@ -3,8 +3,8 @@ import { defineConfig } from 'prisma/config';
 
 export default defineConfig({
   schema: path.join(__dirname, 'prisma', 'schema.prisma'),
-  migrate: {
-    migrations: path.join(__dirname, 'prisma', 'migrations'),
+  migrations: {
+    path: path.join(__dirname, 'prisma', 'migrations'),
   },
   datasource: {
     url: process.env.DATABASE_URL!,
