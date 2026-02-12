@@ -12,4 +12,13 @@ if __name__ == "__main__":
     # Usage example:
     email = "user@example.com"
     password = "my_password"
-    print(f"Generated Hash: [{hash_creds(email, password)}]")
+    # Calculation
+    generated_hash = hash_creds(email, password)
+    # Formatted Output
+    print("-" * 40)
+    print(f"{'CREDENTIAL HASH SYSTEM':^40}")
+    print("-" * 40)
+    print(f"{'Email:':<15} [{email}]")
+    print(f"{'Password:':<15} [{'*' * len(password)}] (hidden)")
+    print(f"{'Generated Hash:':<15} [{generated_hash}]")
+    print("-" * 40)
