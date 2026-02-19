@@ -17,6 +17,9 @@ import type {
   CreateAuthenticationRequest,
   UpdateAuthenticationRequest,
   IntrospectResponse,
+  Environment,
+  CreateEnvironmentRequest,
+  UpdateEnvironmentRequest,
 } from './types';
 
 export class AdminClient {
@@ -137,5 +140,36 @@ export class AdminClient {
     } catch {
       return { active: false };
     }
+  }
+
+  // ── Environments ──
+
+  async createEnvironment(data: CreateEnvironmentRequest): Promise<Environment> {
+    const { data: res } = await this.http.post<ApiDataResponse<Environment>>('/v1/admin/environments', data);
+    return res.data;
+  }
+
+  async getEnvironment(id: string): Promise<Environment> {
+    const { data: res } = await this.http.get<ApiDataResponse<Environment>>(
+      `/v1/admin/environments/${encodeURIComponent(id)}`,
+    );
+    return res.data;
+  }
+
+  async listEnvironments(): Promise<Environment[]> {
+    const { data: res } = await this.http.get<ApiDataResponse<Environment[]>>('/v1/admin/environments');
+    return res.data;
+  }
+
+  async updateEnvironment(id: string, data: UpdateEnvironmentRequest): Promise<Environment> {
+    const { data: res } = await this.http.put<ApiDataResponse<Environment>>(
+      `/v1/admin/environments/${encodeURIComponent(id)}`,
+      data,
+    );
+    return res.data;
+  }
+
+  async deleteEnvironment(id: string): Promise<void> {
+    await this.http.delete(`/v1/admin/environments/${encodeURIComponent(id)}`);
   }
 }

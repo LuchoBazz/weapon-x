@@ -120,10 +120,38 @@ export interface UpdateRoleDTO {
 export interface ProjectEntity {
   reference: string;
   name: string;
+  environment_id?: string | null;
   created_at: Date;
   updated_at: Date;
   configurations?: ConfigEntity[];
   authentications?: AuthenticationEntity[];
+}
+
+// ── Environment ──
+
+export interface EnvironmentEntity {
+  id: string;
+  label: string;
+  region: string;
+  api_base_url: string;
+  api_key: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface CreateEnvironmentDTO {
+  id: string;
+  label: string;
+  region: string;
+  api_base_url: string;
+  api_key: string;
+}
+
+export interface UpdateEnvironmentDTO {
+  label?: string;
+  region?: string;
+  api_base_url?: string;
+  api_key?: string;
 }
 
 export interface CreateProjectDTO {

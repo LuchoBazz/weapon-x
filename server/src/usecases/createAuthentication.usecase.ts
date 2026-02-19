@@ -1,5 +1,5 @@
-import { IAuthenticationRepository } from '../repository/authentication/interfaces';
-import { AuthenticationEntity, CreateAuthenticationDTO } from '../types';
+import type { IAuthenticationRepository } from '../repository/authentication/interfaces';
+import type { AuthenticationEntity, CreateAuthenticationDTO } from '../types';
 import { ConflictError } from '../errors';
 
 export class CreateAuthenticationUseCase {

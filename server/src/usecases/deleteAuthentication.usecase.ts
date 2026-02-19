@@ -1,4 +1,4 @@
-import { IAuthenticationRepository } from '../repository/authentication/interfaces';
+import type { IAuthenticationRepository } from '../repository/authentication/interfaces';
 import { NotFoundError } from '../errors';
 
 export class DeleteAuthenticationUseCase {

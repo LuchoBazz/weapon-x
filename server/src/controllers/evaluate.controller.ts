@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { EvaluateUseCase } from '../usecases/evaluate.usecase';
+import type { Request, Response, NextFunction } from 'express';
+import type { EvaluateUseCase } from '../usecases/evaluate.usecase';
 
 export class EvaluateController {
   constructor(private evaluateUseCase: EvaluateUseCase) {}

@@ -4,7 +4,9 @@ export { SyncEvaluationClient } from './sync-evaluation-client';
 export { WeaponXApiError } from './errors';
 export { createHttpClient } from './http';
 export type {
+  // Options
   WeaponXClientOptions,
+  // Domain models
   Config,
   Rule,
   Condition,
@@ -14,6 +16,8 @@ export type {
   Project,
   Role,
   Authentication,
+  Environment,
+  // Request DTOs
   CreateConfigRequest,
   CreateRuleRequest,
   EvaluateRequest,
@@ -23,6 +27,9 @@ export type {
   UpdateRoleRequest,
   CreateAuthenticationRequest,
   UpdateAuthenticationRequest,
+  CreateEnvironmentRequest,
+  UpdateEnvironmentRequest,
+  // Response types
   ApiDataResponse,
   EvaluateResponse,
   EvaluationResult,

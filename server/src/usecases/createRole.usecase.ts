@@ -1,5 +1,5 @@
-import { IRoleRepository } from '../repository/role/interfaces';
-import { RoleEntity, CreateRoleDTO } from '../types';
+import type { IRoleRepository } from '../repository/role/interfaces';
+import type { RoleEntity, CreateRoleDTO } from '../types';
 import { ConflictError } from '../errors';
 
 export class CreateRoleUseCase {

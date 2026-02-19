@@ -1,5 +1,5 @@
-import { IProjectRepository } from '../repository/project/interfaces';
-import { ProjectEntity, UpdateProjectDTO } from '../types';
+import type { IProjectRepository } from '../repository/project/interfaces';
+import type { ProjectEntity, UpdateProjectDTO } from '../types';
 import { NotFoundError } from '../errors';
 
 export class UpdateProjectUseCase {

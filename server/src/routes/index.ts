@@ -1,13 +1,14 @@
 import { Router } from 'express';
-import { ConfigController } from '../controllers/config.controller';
-import { RuleController } from '../controllers/rule.controller';
-import { EvaluateController } from '../controllers/evaluate.controller';
-import { ProjectController } from '../controllers/project.controller';
-import { RoleController } from '../controllers/role.controller';
-import { AuthenticationController } from '../controllers/authentication.controller';
-import { validate, createConfigSchema, createRuleSchema, evaluateSchema, createProjectSchema, updateProjectSchema, createRoleSchema2, updateRoleSchema, createAuthenticationSchema, updateAuthenticationSchema } from '../middleware/validation';
+import type { ConfigController } from '../controllers/config.controller';
+import type { RuleController } from '../controllers/rule.controller';
+import type { EvaluateController } from '../controllers/evaluate.controller';
+import type { ProjectController } from '../controllers/project.controller';
+import type { RoleController } from '../controllers/role.controller';
+import type { AuthenticationController } from '../controllers/authentication.controller';
+import type { EnvironmentController } from '../controllers/environment.controller';
+import { validate, createConfigSchema, createRuleSchema, evaluateSchema, createProjectSchema, updateProjectSchema, createRoleSchema2, updateRoleSchema, createAuthenticationSchema, updateAuthenticationSchema, createEnvironmentSchema, updateEnvironmentSchema } from '../middleware/validation';
 import { authorize } from '../middleware/authorization';
-import { IAuthenticationRepository } from '../repository/authentication/interfaces';
+import type { IAuthenticationRepository } from '../repository/authentication/interfaces';
 
 export function createRouter(
   configController: ConfigController,
@@ -16,10 +17,18 @@ export function createRouter(
   projectController: ProjectController,
   roleController: RoleController,
   authenticationController: AuthenticationController,
+  environmentController: EnvironmentController,
   authRepo: IAuthenticationRepository
 ): Router {
   const router = Router();
 
+  // Environment routes
+  router.post('/v1/admin/environments', authorize(authRepo, ['environments:write']), validate(createEnvironmentSchema), environmentController.create);
+  router.get('/v1/admin/environments', authorize(authRepo, ['environments:read']), environmentController.list);
+  router.get('/v1/admin/environments/:id', authorize(authRepo, ['environments:read']), environmentController.getOne);
+  router.put('/v1/admin/environments/:id', authorize(authRepo, ['environments:write']), validate(updateEnvironmentSchema), environmentController.update);
+  router.delete('/v1/admin/environments/:id', authorize(authRepo, ['environments:write']), environmentController.remove);
+  
   // Project routes
   router.post('/v1/admin/projects', authorize(authRepo, ['projects:write']), validate(createProjectSchema), projectController.create);
   router.get('/v1/admin/projects', authorize(authRepo, ['projects:read']), projectController.list);

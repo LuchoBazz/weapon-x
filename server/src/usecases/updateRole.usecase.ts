@@ -1,5 +1,5 @@
-import { IRoleRepository } from '../repository/role/interfaces';
-import { RoleEntity, UpdateRoleDTO } from '../types';
+import type { IRoleRepository } from '../repository/role/interfaces';
+import type { RoleEntity, UpdateRoleDTO } from '../types';
 import { NotFoundError } from '../errors';
 
 export class UpdateRoleUseCase {

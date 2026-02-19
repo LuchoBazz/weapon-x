@@ -1,6 +1,6 @@
-import { PrismaClient } from '../../../generated/prisma/client';
-import { IRoleRepository } from '../interfaces';
-import { RoleEntity, CreateRoleDTO, UpdateRoleDTO } from '../../../types';
+import type { PrismaClient } from '../../../generated/prisma/client';
+import type { IRoleRepository } from '../interfaces';
+import type { RoleEntity, CreateRoleDTO, UpdateRoleDTO } from '../../../types';
 
 export class PrismaRoleRepository implements IRoleRepository {
   constructor(private prisma: PrismaClient) {}

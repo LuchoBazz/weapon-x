@@ -1,5 +1,5 @@
-import { IRoleRepository } from '../repository/role/interfaces';
-import { RoleEntity } from '../types';
+import type { IRoleRepository } from '../repository/role/interfaces';
+import type { RoleEntity } from '../types';
 import { NotFoundError } from '../errors';
 
 export class GetRoleUseCase {

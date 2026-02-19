@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import { CreateProjectUseCase } from '../usecases/createProject.usecase';
-import { GetProjectUseCase, ListProjectsUseCase } from '../usecases/getProject.usecase';
-import { UpdateProjectUseCase } from '../usecases/updateProject.usecase';
-import { DeleteProjectUseCase } from '../usecases/deleteProject.usecase';
+import type { Request, Response, NextFunction } from 'express';
+import type { CreateProjectUseCase } from '../usecases/createProject.usecase';
+import type { GetProjectUseCase, ListProjectsUseCase } from '../usecases/getProject.usecase';
+import type { UpdateProjectUseCase } from '../usecases/updateProject.usecase';
+import type { DeleteProjectUseCase } from '../usecases/deleteProject.usecase';
 
 export class ProjectController {
   constructor(

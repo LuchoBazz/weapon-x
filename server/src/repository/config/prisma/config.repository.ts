@@ -1,6 +1,6 @@
-import { PrismaClient } from '../../../generated/prisma/client';
-import { IConfigRepository } from '../interfaces';
-import { ConfigEntity, CreateConfigDTO } from '../../../types';
+import type { PrismaClient } from '../../../generated/prisma/client';
+import type { IConfigRepository } from '../interfaces';
+import type { ConfigEntity, CreateConfigDTO } from '../../../types';
 import { encrypt, decrypt } from '../../../utils/crypto';
 
 export class PrismaConfigRepository implements IConfigRepository {

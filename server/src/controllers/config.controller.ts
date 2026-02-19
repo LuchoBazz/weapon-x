@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { CreateConfigUseCase } from '../usecases/createConfig.usecase';
-import { AuditService } from '../services/audit.service';
+import type { Request, Response, NextFunction } from 'express';
+import type { CreateConfigUseCase } from '../usecases/createConfig.usecase';
+import type { AuditService } from '../services/audit.service';
 
 export class ConfigController {
   constructor(

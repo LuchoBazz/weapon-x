@@ -1,4 +1,4 @@
-import { ProjectEntity, CreateProjectDTO, UpdateProjectDTO } from '../../types';
+import type { ProjectEntity, CreateProjectDTO, UpdateProjectDTO } from '../../types';
 
 export interface IProjectRepository {
   create(data: CreateProjectDTO): Promise<ProjectEntity>;

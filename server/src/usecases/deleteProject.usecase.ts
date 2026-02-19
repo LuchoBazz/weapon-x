@@ -1,4 +1,4 @@
-import { IProjectRepository } from '../repository/project/interfaces';
+import type { IProjectRepository } from '../repository/project/interfaces';
 import { NotFoundError } from '../errors';
 
 export class DeleteProjectUseCase {

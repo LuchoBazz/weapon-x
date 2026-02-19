@@ -1,4 +1,4 @@
-import { AuthenticationEntity, CreateAuthenticationDTO, UpdateAuthenticationDTO } from '../../types';
+import type { AuthenticationEntity, CreateAuthenticationDTO, UpdateAuthenticationDTO } from '../../types';
 
 export interface IAuthenticationRepository {
   create(data: CreateAuthenticationDTO): Promise<AuthenticationEntity>;

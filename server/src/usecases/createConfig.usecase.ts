@@ -1,5 +1,5 @@
-import { IConfigRepository } from '../repository/config/interfaces';
-import { ConfigEntity, CreateConfigDTO } from '../types';
+import type { IConfigRepository } from '../repository/config/interfaces';
+import type { ConfigEntity, CreateConfigDTO } from '../types';
 import { ConflictError } from '../errors';
 
 export class CreateConfigUseCase {

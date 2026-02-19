@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { IAuthenticationRepository } from '../repository/authentication/interfaces';
-import { AuthenticationEntity } from '../types';
+import type { Request, Response, NextFunction } from 'express';
+import type { IAuthenticationRepository } from '../repository/authentication/interfaces';
+import type { AuthenticationEntity } from '../types';
 
 // Extend Express Request to carry the authenticated entity
 declare global {

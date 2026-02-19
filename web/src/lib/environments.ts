@@ -1,3 +1,11 @@
+/**
+ * Legacy environment helpers.
+ *
+ * The canonical list now lives in `environment-sdk.ts` (database-driven with
+ * mock fallback).  These thin wrappers remain so existing code (EnvironmentSelector,
+ * use-environment, sdk.ts) keeps compiling without changes.
+ */
+
 export interface Environment {
   id: string;
   label: string;
@@ -7,6 +15,10 @@ export interface Environment {
   apiKey: string;
 }
 
+/**
+ * Static seed list – kept only for synchronous consumers that cannot await
+ * the SDK.  The verification UI should always prefer `fetchEnvironments()`.
+ */
 export const ENVIRONMENTS: Environment[] = [
   {
     id: 'unified_jennet',

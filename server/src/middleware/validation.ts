@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 
 const conditionSchema = Joi.object({
   attribute: Joi.string().required(),
@@ -72,6 +72,22 @@ export const updateAuthenticationSchema = Joi.object({
   expiration_date: Joi.date().iso().allow(null).optional(),
   role_id: Joi.string().optional(),
   email: Joi.string().email().max(255).optional(),
+}).min(1);
+
+
+export const createEnvironmentSchema = Joi.object({
+  id: Joi.string().max(100).required(),
+  label: Joi.string().max(255).required(),
+  region: Joi.string().max(100).required(),
+  api_base_url: Joi.string().max(500).uri().required(),
+  api_key: Joi.string().max(512).required(),
+});
+
+export const updateEnvironmentSchema = Joi.object({
+  label: Joi.string().max(255).optional(),
+  region: Joi.string().max(100).optional(),
+  api_base_url: Joi.string().max(500).uri().optional(),
+  api_key: Joi.string().max(512).optional(),
 }).min(1);
 
 export function validate(schema: Joi.ObjectSchema) {

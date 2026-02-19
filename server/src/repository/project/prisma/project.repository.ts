@@ -1,6 +1,6 @@
-import { PrismaClient } from '../../../generated/prisma/client';
-import { IProjectRepository } from '../interfaces';
-import { ProjectEntity, CreateProjectDTO, UpdateProjectDTO } from '../../../types';
+import type { PrismaClient } from '../../../generated/prisma/client';
+import type { IProjectRepository } from '../interfaces';
+import type { ProjectEntity, CreateProjectDTO, UpdateProjectDTO } from '../../../types';
 
 export class PrismaProjectRepository implements IProjectRepository {
   constructor(private prisma: PrismaClient) {}

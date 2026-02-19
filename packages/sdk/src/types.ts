@@ -44,6 +44,31 @@ export interface Config {
   rules?: Rule[];
 }
 
+export interface Environment {
+  id: string;
+  label: string;
+  region: string;
+  api_base_url: string;
+  api_key: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateEnvironmentRequest {
+  id: string;
+  label: string;
+  region: string;
+  api_base_url: string;
+  api_key: string;
+}
+
+export interface UpdateEnvironmentRequest {
+  label?: string;
+  region?: string;
+  api_base_url?: string;
+  api_key?: string;
+}
+
 export interface Project {
   reference: string;
   name: string;

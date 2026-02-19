@@ -8,6 +8,7 @@ import AuthGuard from "./components/auth/AuthGuard";
 import Index from "./pages/Index";
 import LoginForm from "./components/auth/LoginForm";
 import NotFound from "./pages/NotFound";
+import EnvironmentsVerification from "./pages/EnvironmentsVerification";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<AuthGuard><Index /></AuthGuard>} />
             <Route path="/login" element={<LoginForm />} />
+            <Route path="/dev/environments" element={<EnvironmentsVerification />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

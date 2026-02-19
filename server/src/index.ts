@@ -1,4 +1,5 @@
-import express, { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from './generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -7,6 +8,7 @@ import { PrismaRuleRepository } from './repository/rule/prisma/rule.repository';
 import { PrismaAuthenticationRepository } from './repository/authentication/prisma/authentication.repository';
 import { PrismaAuditLogRepository } from './repository/audit/prisma/audit.repository';
 import { CreateConfigUseCase } from './usecases/createConfig.usecase';
+import { PrismaEnvironmentRepository } from './repository/environment/prisma/environment.repository';
 import { AssignRuleUseCase } from './usecases/assignRule.usecase';
 import { EvaluateUseCase } from './usecases/evaluate.usecase';
 import { CreateProjectUseCase } from './usecases/createProject.usecase';
@@ -30,8 +32,13 @@ import { ProjectController } from './controllers/project.controller';
 import { RoleController } from './controllers/role.controller';
 import { AuthenticationController } from './controllers/authentication.controller';
 import { PrismaProjectRepository } from './repository/project/prisma/project.repository';
+import { EnvironmentController } from './controllers/environment.controller';
 import { PrismaRoleRepository } from './repository/role/prisma/role.repository';
 import { createRouter } from './routes';
+import { CreateEnvironmentUseCase } from './usecases/createEnvironment.usecase';
+import { GetEnvironmentUseCase, ListEnvironmentsUseCase } from './usecases/getEnvironment.usecase';
+import { UpdateEnvironmentUseCase } from './usecases/updateEnvironment.usecase';
+import { DeleteEnvironmentUseCase } from './usecases/deleteEnvironment.usecase';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -44,6 +51,7 @@ const authRepo = new PrismaAuthenticationRepository(prisma);
 const projectRepo = new PrismaProjectRepository(prisma);
 const roleRepo = new PrismaRoleRepository(prisma);
 const auditRepo = new PrismaAuditLogRepository(prisma);
+const environmentRepo = new PrismaEnvironmentRepository(prisma);
 
 // Services
 const auditService = new AuditService(auditRepo);
@@ -68,6 +76,11 @@ const listAuthsByProjectUseCase = new ListAuthenticationsByProjectUseCase(authRe
 const updateAuthUseCase = new UpdateAuthenticationUseCase(authRepo);
 const deleteAuthUseCase = new DeleteAuthenticationUseCase(authRepo);
 const introspectAuthUseCase = new IntrospectAuthenticationUseCase(authRepo);
+const createEnvUseCase = new CreateEnvironmentUseCase(environmentRepo);
+const getEnvUseCase = new GetEnvironmentUseCase(environmentRepo);
+const listEnvsUseCase = new ListEnvironmentsUseCase(environmentRepo);
+const updateEnvUseCase = new UpdateEnvironmentUseCase(environmentRepo);
+const deleteEnvUseCase = new DeleteEnvironmentUseCase(environmentRepo);
 
 // Controllers
 const configController = new ConfigController(createConfigUseCase, auditService);
@@ -76,12 +89,13 @@ const evaluateController = new EvaluateController(evaluateUseCase);
 const projectController = new ProjectController(createProjectUseCase, getProjectUseCase, listProjectsUseCase, updateProjectUseCase, deleteProjectUseCase);
 const roleController = new RoleController(createRoleUseCase, getRoleUseCase, listRolesUseCase, updateRoleUseCase, deleteRoleUseCase);
 const authenticationController = new AuthenticationController(createAuthUseCase, getAuthUseCase, listAuthsByProjectUseCase, updateAuthUseCase, deleteAuthUseCase, introspectAuthUseCase);
+const environmentController = new EnvironmentController(createEnvUseCase, getEnvUseCase, listEnvsUseCase, updateEnvUseCase, deleteEnvUseCase);
 
 // App
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(createRouter(configController, ruleCtrl, evaluateController, projectController, roleController, authenticationController, authRepo));
+app.use(createRouter(configController, ruleCtrl, evaluateController, projectController, roleController, authenticationController, environmentController, authRepo));
 
 // Health check
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));

@@ -1,5 +1,5 @@
-import { IAuditLogRepository } from '../repository/audit/interfaces';
-import { AuditAction, AuditEntityType, AuthenticationEntity } from '../types';
+import type { IAuditLogRepository } from '../repository/audit/interfaces';
+import type { AuditAction, AuditEntityType, AuthenticationEntity } from '../types';
 
 export interface AuditContext {
   auth: AuthenticationEntity;

@@ -1,5 +1,5 @@
-import { IProjectRepository } from '../repository/project/interfaces';
-import { ProjectEntity, CreateProjectDTO } from '../types';
+import type { IProjectRepository } from '../repository/project/interfaces';
+import type { ProjectEntity, CreateProjectDTO } from '../types';
 import { ConflictError } from '../errors';
 
 export class CreateProjectUseCase {

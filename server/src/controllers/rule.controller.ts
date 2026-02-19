@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { AssignRuleUseCase } from '../usecases/assignRule.usecase';
-import { AuditService } from '../services/audit.service';
+import type { Request, Response, NextFunction } from 'express';
+import type { AssignRuleUseCase } from '../usecases/assignRule.usecase';
+import type { AuditService } from '../services/audit.service';
 
 export class RuleController {
   constructor(

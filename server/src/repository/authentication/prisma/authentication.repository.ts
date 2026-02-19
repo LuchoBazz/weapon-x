@@ -1,6 +1,6 @@
-import { PrismaClient } from '../../../generated/prisma/client';
-import { IAuthenticationRepository } from '../interfaces';
-import { AuthenticationEntity, CreateAuthenticationDTO, UpdateAuthenticationDTO } from '../../../types';
+import type { PrismaClient } from '../../../generated/prisma/client';
+import type { IAuthenticationRepository } from '../interfaces';
+import type { AuthenticationEntity, CreateAuthenticationDTO, UpdateAuthenticationDTO } from '../../../types';
 
 const INCLUDE_ROLE = { role: true } as const;
 

@@ -1,4 +1,4 @@
-import { IAuthenticationRepository } from '../repository/authentication/interfaces';
+import type { IAuthenticationRepository } from '../repository/authentication/interfaces';
 
 export interface IntrospectResult {
   active: boolean;

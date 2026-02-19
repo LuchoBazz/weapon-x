@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import { CreateRoleUseCase } from '../usecases/createRole.usecase';
-import { GetRoleUseCase, ListRolesUseCase } from '../usecases/getRole.usecase';
-import { UpdateRoleUseCase } from '../usecases/updateRole.usecase';
-import { DeleteRoleUseCase } from '../usecases/deleteRole.usecase';
+import type { Request, Response, NextFunction } from 'express';
+import type { CreateRoleUseCase } from '../usecases/createRole.usecase';
+import type { GetRoleUseCase, ListRolesUseCase } from '../usecases/getRole.usecase';
+import type { UpdateRoleUseCase } from '../usecases/updateRole.usecase';
+import type { DeleteRoleUseCase } from '../usecases/deleteRole.usecase';
 
 export class RoleController {
   constructor(

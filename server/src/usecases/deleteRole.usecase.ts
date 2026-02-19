@@ -1,4 +1,4 @@
-import { IRoleRepository } from '../repository/role/interfaces';
+import type { IRoleRepository } from '../repository/role/interfaces';
 import { NotFoundError } from '../errors';
 
 export class DeleteRoleUseCase {

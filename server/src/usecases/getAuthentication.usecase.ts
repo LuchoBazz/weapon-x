@@ -1,5 +1,5 @@
-import { IAuthenticationRepository } from '../repository/authentication/interfaces';
-import { AuthenticationEntity } from '../types';
+import type { IAuthenticationRepository } from '../repository/authentication/interfaces';
+import type { AuthenticationEntity } from '../types';
 import { NotFoundError } from '../errors';
 
 export class GetAuthenticationUseCase {

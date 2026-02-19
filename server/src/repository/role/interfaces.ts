@@ -1,4 +1,4 @@
-import { RoleEntity, CreateRoleDTO, UpdateRoleDTO } from '../../types';
+import type { RoleEntity, CreateRoleDTO, UpdateRoleDTO } from '../../types';
 
 export interface IRoleRepository {
   create(data: CreateRoleDTO): Promise<RoleEntity>;

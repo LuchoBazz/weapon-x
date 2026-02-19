@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
-import { CreateAuthenticationUseCase } from '../usecases/createAuthentication.usecase';
-import { GetAuthenticationUseCase, ListAuthenticationsByProjectUseCase } from '../usecases/getAuthentication.usecase';
-import { UpdateAuthenticationUseCase } from '../usecases/updateAuthentication.usecase';
-import { DeleteAuthenticationUseCase } from '../usecases/deleteAuthentication.usecase';
-import { IntrospectAuthenticationUseCase } from '../usecases/introspectAuthentication.usecase';
+import type { Request, Response, NextFunction } from 'express';
+import type { CreateAuthenticationUseCase } from '../usecases/createAuthentication.usecase';
+import type { GetAuthenticationUseCase, ListAuthenticationsByProjectUseCase } from '../usecases/getAuthentication.usecase';
+import type { UpdateAuthenticationUseCase } from '../usecases/updateAuthentication.usecase';
+import type { DeleteAuthenticationUseCase } from '../usecases/deleteAuthentication.usecase';
+import type { IntrospectAuthenticationUseCase } from '../usecases/introspectAuthentication.usecase';
 
 export class AuthenticationController {
   constructor(

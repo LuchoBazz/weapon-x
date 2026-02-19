@@ -1,4 +1,4 @@
-import { ConfigEntity, CreateConfigDTO } from '../../types';
+import type { ConfigEntity, CreateConfigDTO } from '../../types';
 
 export interface IConfigRepository {
   create(data: CreateConfigDTO): Promise<ConfigEntity>;

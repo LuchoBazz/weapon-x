@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
-import { IConfigRepository } from '../repository/config/interfaces';
-import { Condition, EvaluateDTO, EvaluationResult } from '../types';
+import type { IConfigRepository } from '../repository/config/interfaces';
+import type { Condition, EvaluateDTO, EvaluationResult } from '../types';
 
 export class EvaluateUseCase {
   constructor(private configRepo: IConfigRepository) {}

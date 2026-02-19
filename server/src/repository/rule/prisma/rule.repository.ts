@@ -1,6 +1,6 @@
-import { PrismaClient } from '../../../generated/prisma/client';
-import { IRuleRepository } from '../interfaces';
-import { RuleEntity, CreateRuleDTO } from '../../../types';
+import type { PrismaClient } from '../../../generated/prisma/client';
+import type { IRuleRepository } from '../interfaces';
+import type { RuleEntity, CreateRuleDTO } from '../../../types';
 
 export class PrismaRuleRepository implements IRuleRepository {
   constructor(private prisma: PrismaClient) {}

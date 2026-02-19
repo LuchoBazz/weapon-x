@@ -1,6 +1,6 @@
-import { PrismaClient } from '../../../generated/prisma/client';
-import { IAuditLogRepository } from '../interfaces';
-import { AuditLogEntity, CreateAuditLogDTO } from '../../../types';
+import type { PrismaClient } from '../../../generated/prisma/client';
+import type { IAuditLogRepository } from '../interfaces';
+import type { AuditLogEntity, CreateAuditLogDTO } from '../../../types';
 
 export class PrismaAuditLogRepository implements IAuditLogRepository {
   constructor(private prisma: PrismaClient) {}

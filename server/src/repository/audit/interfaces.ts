@@ -1,4 +1,4 @@
-import { AuditLogEntity, CreateAuditLogDTO } from '../../types';
+import type { AuditLogEntity, CreateAuditLogDTO } from '../../types';
 
 export interface IAuditLogRepository {
   create(data: CreateAuditLogDTO): Promise<AuditLogEntity>;

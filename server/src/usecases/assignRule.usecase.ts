@@ -1,6 +1,6 @@
-import { IConfigRepository } from '../repository/config/interfaces';
-import { IRuleRepository } from '../repository/rule/interfaces';
-import { RuleEntity, CreateRuleDTO } from '../types';
+import type { IConfigRepository } from '../repository/config/interfaces';
+import type { IRuleRepository } from '../repository/rule/interfaces';
+import type { RuleEntity, CreateRuleDTO } from '../types';
 import { NotFoundError, ValidationError } from '../errors';
 import { validateAgainstSchema } from '../utils/schema-validator';
 import { encrypt } from '../utils/crypto';
