@@ -3,7 +3,7 @@ import { Plus, FolderOpen } from 'lucide-react';
 import { Config, Filters, ViewType } from '@/lib/types';
 import { PROJECT_REFS } from '@/lib/constants';
 import { useEnvironment } from '@/hooks/use-environment';
-import { resetClients } from '@/lib/sdk';
+import { SDK_ENABLED, resetClients } from '@/lib/sdk';
 import Sidebar from '@/components/dashboard/Sidebar';
 import ConfigList from '@/components/dashboard/ConfigList';
 import Editor from '@/components/dashboard/Editor';
@@ -24,7 +24,7 @@ import {
 } from '@/services/config.service';
 
 const Index = () => {
-  const { environment } = useEnvironment();
+  const { environment, projects } = useEnvironment();
   const [configs, setConfigs] = useState<Config[]>(getInitialConfigs);
   const [view, setView] = useState<ViewType>('dashboard');
   const [selectedConfigId, setSelectedConfigId] = useState<string | null>(null);
@@ -46,9 +46,10 @@ const Index = () => {
 
   const availableProjects = useMemo(() => {
     const fromConfigs = [...new Set(configs.map(c => c.project_reference))];
-    const all = [...new Set([...fromConfigs, ...PROJECT_REFS])];
+    const sdkProjects = projects.map(p => p.reference);
+    const all = [...new Set([...fromConfigs, ...(SDK_ENABLED ? sdkProjects : PROJECT_REFS)])];
     return all.sort();
-  }, [configs]);
+  }, [configs, projects]);
 
   const filteredConfigs = useMemo(() => {
     if (!selectedProject) return [];

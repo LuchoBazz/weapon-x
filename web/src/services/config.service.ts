@@ -7,6 +7,7 @@ import { evaluateCondition } from '@/lib/evaluation';
 // ── Local Storage Helpers ──
 
 function loadLocal(): Config[] {
+  if (SDK_ENABLED) return [];
   const saved = localStorage.getItem('ff_dashboard_data');
   return saved ? JSON.parse(saved) : INITIAL_DATA;
 }

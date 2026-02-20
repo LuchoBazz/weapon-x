@@ -54,8 +54,10 @@ export class AdminClient {
     return res.data;
   }
 
-  async listProjects(): Promise<Project[]> {
-    const { data: res } = await this.http.get<ApiDataResponse<Project[]>>('/v1/admin/projects');
+  async listProjects(token: string): Promise<Project[]> {
+    const { data: res } = await this.http.get<ApiDataResponse<Project[]>>('/v1/admin/projects', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return res.data;
   }
 

@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
 import {
   type SdkEnvironment,
+  type SdkProject,
   fetchEnvironments,
+  fetchProjects,
   loadPersistedEnvironmentId,
   persistEnvironmentId,
 } from '@/lib/environment-sdk';
@@ -11,13 +13,18 @@ interface EnvironmentContextValue {
   environments: SdkEnvironment[];
   setEnvironment: (id: string) => void;
   loading: boolean;
+  projects: SdkProject[];
+  projectsLoading: boolean;
+  refreshProjects: () => Promise<void>;
 }
 
 const EnvironmentContext = createContext<EnvironmentContextValue | null>(null);
 
 export const EnvironmentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [environments, setEnvironments] = useState<SdkEnvironment[]>([]);
+  const [projects, setProjects] = useState<SdkProject[]>([]);
   const [loading, setLoading] = useState(true);
+  const [projectsLoading, setProjectsLoading] = useState(false);
   const [envId, setEnvId] = useState<string | null>(loadPersistedEnvironmentId);
 
   useEffect(() => {
@@ -49,6 +56,25 @@ export const EnvironmentProvider: React.FC<{ children: React.ReactNode }> = ({ c
     };
   }, []); // Only fetch on mount
 
+  const refreshProjects = useCallback(async () => {
+    setProjectsLoading(true);
+    try {
+      const p = await fetchProjects();
+      setProjects(p);
+    } catch (err) {
+      console.error('[EnvironmentProvider] Failed to fetch projects:', err);
+    } finally {
+      setProjectsLoading(false);
+    }
+  }, []);
+
+  // Fetch projects when environment changes (or on mount once env is resolved)
+  useEffect(() => {
+    if (envId) {
+      refreshProjects();
+    }
+  }, [envId, refreshProjects]);
+
   const environment = useMemo(() => {
     return environments.find(e => e.id === envId) || null;
   }, [environments, envId]);
@@ -59,8 +85,16 @@ export const EnvironmentProvider: React.FC<{ children: React.ReactNode }> = ({ c
   }, []);
 
   const value = useMemo(
-    () => ({ environment, environments, setEnvironment, loading }),
-    [environment, environments, setEnvironment, loading],
+    () => ({ 
+      environment, 
+      environments, 
+      setEnvironment, 
+      loading,
+      projects,
+      projectsLoading,
+      refreshProjects
+    }),
+    [environment, environments, setEnvironment, loading, projects, projectsLoading, refreshProjects],
   );
 
   return (

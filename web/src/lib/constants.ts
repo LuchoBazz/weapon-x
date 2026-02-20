@@ -1,4 +1,4 @@
-export const PROJECT_REFS = ['DEADPOOL_STAGING', 'ECOM_STOREFRONT_PROD', 'MOBILE_APP_V2', 'INTERNAL_TOOLS'];
+export const PROJECT_REFS = [];
 export const OPS = ['EQUALS', 'NOT_EQUALS', 'IN', 'NOT_IN', 'CONTAINS', 'GREATER_THAN', 'LESS_THAN', 'REGEX'] as const;
 
 export const DEFAULT_BOOLEAN_SCHEMA = {

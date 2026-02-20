@@ -1,8 +1,11 @@
-import type { Environment as SdkEnvironment } from '../../../packages/sdk/src/types';
+import type { 
+  Environment as SdkEnvironment, 
+  Project as SdkProject 
+} from '../../../packages/sdk/src/types';
 import { getToken } from './auth';
 import { getAdminClient } from './sdk';
 
-export type { SdkEnvironment };
+export type { SdkEnvironment, SdkProject };
 
 const STORAGE_KEY = 'wx_active_environment';
 
@@ -22,6 +25,18 @@ export async function fetchEnvironments(): Promise<SdkEnvironment[]> {
     return await client.listEnvironments(token);
   } catch (error) {
     console.error('[environment-sdk] Failed to fetch environments:', error);
+    return [];
+  }
+}
+
+/** Fetch projects from the API. */
+export async function fetchProjects(): Promise<SdkProject[]> {
+  try {
+    const token = getToken();
+    const client = getAdminClient();
+    return await client.listProjects(token);
+  } catch (error) {
+    console.error('[environment-sdk] Failed to fetch projects:', error);
     return [];
   }
 }
