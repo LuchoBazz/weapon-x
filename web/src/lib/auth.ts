@@ -37,7 +37,7 @@ export async function login(email: string, password: string): Promise<LoginResul
   return { success: false, error: 'Invalid email or password.' };
 }
 
-export function getToken(): string | null {
+export function getToken(): string {
   return localStorage.getItem(TOKEN_KEY);
 }
 

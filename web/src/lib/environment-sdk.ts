@@ -1,4 +1,5 @@
 import type { Environment as SdkEnvironment } from '../../../packages/sdk/src/types';
+import { getToken } from './auth';
 import { getAdminClient } from './sdk';
 
 export type { SdkEnvironment };
@@ -16,8 +17,9 @@ export function persistEnvironmentId(id: string): void {
 /** Fetch environments from the API. */
 export async function fetchEnvironments(): Promise<SdkEnvironment[]> {
   try {
+    const token = getToken();
     const client = getAdminClient();
-    return await client.listEnvironments();
+    return await client.listEnvironments(token);
   } catch (error) {
     console.error('[environment-sdk] Failed to fetch environments:', error);
     return [];
