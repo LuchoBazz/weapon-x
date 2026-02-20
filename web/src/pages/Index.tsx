@@ -30,11 +30,11 @@ const Index = () => {
   const [selectedConfigId, setSelectedConfigId] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [filters, setFilters] = useState<Filters>({ search: '', project: 'ALL', type: 'ALL' });
-  const prevEnvRef = useRef(environment.id);
+  const prevEnvRef = useRef(environment?.id);
 
   // Re-fetch data when environment changes
   useEffect(() => {
-    if (prevEnvRef.current !== environment.id) {
+    if (environment?.id && prevEnvRef.current !== environment.id) {
       prevEnvRef.current = environment.id;
       resetClients();
       setConfigs(getInitialConfigs());
@@ -42,7 +42,7 @@ const Index = () => {
       setSelectedConfigId(null);
       setView('dashboard');
     }
-  }, [environment.id]);
+  }, [environment?.id]);
 
   const availableProjects = useMemo(() => {
     const fromConfigs = [...new Set(configs.map(c => c.project_reference))];

@@ -19,7 +19,7 @@ declare global {
  * Usage in routes:
  *   authorize(authRepo, ['configs:write'])
  */
-export function authorize(authRepo: IAuthenticationRepository, requiredPermissions: string[] = []) {
+export function   authorize(authRepo: IAuthenticationRepository, requiredPermissions: string[] = []) {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       // 1. Extract Bearer token

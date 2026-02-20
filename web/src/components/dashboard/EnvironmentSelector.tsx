@@ -12,6 +12,8 @@ import {
 const EnvironmentSelector: React.FC = () => {
   const { environment, environments, setEnvironment } = useEnvironment();
 
+  if (!environment) return null;
+
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-sidebar-fg/60 px-1">

@@ -157,7 +157,9 @@ export class AdminClient {
   }
 
   async listEnvironments(): Promise<Environment[]> {
-    const { data: res } = await this.http.get<ApiDataResponse<Environment[]>>('/v1/admin/environments');
+    const { data: res } = await this.http.get<ApiDataResponse<Environment[]>>('/v1/admin/environments', {
+      headers: { Authorization: `Bearer nothing` },
+    });
     return res.data;
   }
 
