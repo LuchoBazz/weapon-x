@@ -3,6 +3,8 @@ import { Play, CheckCircle2, Box, FolderOpen, Search, Lock, Eye, EyeOff } from '
 import { Config, EvaluationResult } from '@/lib/types';
 import { evaluateConfigs } from '@/services/config.service';
 import { PROJECT_REFS } from '@/lib/constants';
+import { useEnvironment } from '@/hooks/use-environment';
+import { SDK_ENABLED } from '@/lib/sdk';
 import StatusBadge from './StatusBadge';
 import {
   Select,
@@ -17,6 +19,7 @@ interface SimulatorProps {
 }
 
 const Simulator: React.FC<SimulatorProps> = ({ configs }) => {
+  const { environment, projects } = useEnvironment();
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [contextInput, setContextInput] = useState(`{
   "client_id": "VIP_01",
@@ -62,11 +65,13 @@ const Simulator: React.FC<SimulatorProps> = ({ configs }) => {
   };
 
   // Derive available projects from actual configs
+  // Derive available projects from actual configs and SDK
   const availableProjects = useMemo(() => {
     const fromConfigs = [...new Set(configs.map(c => c.project_reference))];
-    const all = [...new Set([...fromConfigs, ...PROJECT_REFS])];
+    const sdkProjects = projects.map(p => p.reference);
+    const all = [...new Set([...fromConfigs, ...(SDK_ENABLED ? sdkProjects : PROJECT_REFS)])];
     return all.sort();
-  }, [configs]);
+  }, [configs, projects]);
 
   if (!selectedProject) {
     return (

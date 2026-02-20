@@ -3,6 +3,7 @@ import { generateId } from '@/lib/constants';
 import { INITIAL_DATA } from '@/lib/initial-data';
 import { SDK_ENABLED, getAdminClient, getEvaluationClient } from '@/lib/sdk';
 import { evaluateCondition } from '@/lib/evaluation';
+import { getToken } from '@/lib/auth';
 
 // ── Local Storage Helpers ──
 
@@ -20,6 +21,27 @@ function saveLocal(configs: Config[]): void {
 
 export function getInitialConfigs(): Config[] {
   return loadLocal();
+}
+
+export async function fetchConfigsForProject(reference: string): Promise<Config[]> {
+  if (!SDK_ENABLED) return [];
+  try {
+    const admin = getAdminClient();
+    const token = getToken();
+    const project = await admin.getProject(reference, token);
+    const configurations = project.configurations || [];
+    
+    // Defensive mapping to ensure frontend compatibility
+    return configurations.map(c => ({
+      ...c,
+      rules: c.rules || [],
+      description: c.description || '',
+      project_reference: c.project_reference || reference,
+    })) as unknown as Config[];
+  } catch (err) {
+    console.error(`[SDK] Failed to fetch configs for project ${reference}:`, err);
+    return [];
+  }
 }
 
 export async function createConfig(

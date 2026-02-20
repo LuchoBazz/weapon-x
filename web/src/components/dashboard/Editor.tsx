@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Save, Trash2, Plus, XCircle, AlertCircle, GripVertical, Eye, EyeOff, Lock } from 'lucide-react';
 import { Config } from '@/lib/types';
-import { PROJECT_REFS, OPS, DEFAULT_BOOLEAN_SCHEMA, DEFAULT_JSON_SCHEMA, DEFAULT_STRING_SCHEMA, DEFAULT_SECRET_SCHEMA, generateId } from '@/lib/constants';
+import { OPS, DEFAULT_BOOLEAN_SCHEMA, DEFAULT_JSON_SCHEMA, DEFAULT_STRING_SCHEMA, DEFAULT_SECRET_SCHEMA, generateId, PROJECT_REFS } from '@/lib/constants';
+import { useEnvironment } from '@/hooks/use-environment';
+import { SDK_ENABLED } from '@/lib/sdk';
 import StatusBadge from './StatusBadge';
 import ToggleSwitch from './ToggleSwitch';
 import ProgressBar from './ProgressBar';
@@ -14,8 +16,11 @@ interface EditorProps {
 }
 
 const Editor: React.FC<EditorProps> = ({ config: initialConfig, onSave, onCancel, onDelete }) => {
+  const { projects } = useEnvironment();
+  const availableProjects = SDK_ENABLED ? projects.map(p => p.reference) : PROJECT_REFS;
+
   const [config, setConfig] = useState<Config>(initialConfig || {
-    project_reference: PROJECT_REFS[0],
+    project_reference: availableProjects[0] || "",
     key: "",
     description: "",
     type: "BOOLEAN",
@@ -195,7 +200,7 @@ const Editor: React.FC<EditorProps> = ({ config: initialConfig, onSave, onCancel
                   value={config.project_reference}
                   onChange={e => setConfig({ ...config, project_reference: e.target.value })}
                 >
-                  {PROJECT_REFS.map(p => <option key={p} value={p}>{p}</option>)}
+                  {availableProjects.map(p => <option key={p} value={p}>{p}</option>)}
                 </select>
               </div>
               <div className="space-y-2">
