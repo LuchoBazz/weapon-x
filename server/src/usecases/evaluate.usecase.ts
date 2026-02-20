@@ -67,12 +67,14 @@ export class EvaluateUseCase {
       : String(conditionValue).split(',').map(s => s.trim().toLowerCase());
     const scalarVal = Array.isArray(conditionValue) ? conditionValue[0]?.toLowerCase() ?? '' : String(conditionValue).toLowerCase();
 
+    console.log(JSON.stringify({ contextValue, operator, conditionValue, cv, list, scalarVal }, null, 2));
+
     switch (operator) {
       case 'EQUALS': return cv === scalarVal;
       case 'NOT_EQUALS': return cv !== scalarVal;
       case 'IN': return list.includes(cv);
       case 'NOT_IN': return !list.includes(cv);
-      case 'CONTAINS': return cv.includes(scalarVal);
+      case 'CONTAINS': return scalarVal.includes(cv);
       case 'GREATER_THAN': return parseFloat(cv) > parseFloat(scalarVal);
       case 'LESS_THAN': return parseFloat(cv) < parseFloat(scalarVal);
       case 'REGEX':

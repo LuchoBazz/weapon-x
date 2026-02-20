@@ -6,7 +6,7 @@ import type { ProjectController } from '../controllers/project.controller';
 import type { RoleController } from '../controllers/role.controller';
 import type { AuthenticationController } from '../controllers/authentication.controller';
 import type { EnvironmentController } from '../controllers/environment.controller';
-import { validate, createConfigSchema, createRuleSchema, evaluateSchema, createProjectSchema, updateProjectSchema, createRoleSchema2, updateRoleSchema, createAuthenticationSchema, updateAuthenticationSchema, createEnvironmentSchema, updateEnvironmentSchema } from '../middleware/validation';
+import { validate, createConfigSchema, updateConfigSchema, createRuleSchema, updateRuleSchema, evaluateSchema, createProjectSchema, updateProjectSchema, createRoleSchema2, updateRoleSchema, createAuthenticationSchema, updateAuthenticationSchema, createEnvironmentSchema, updateEnvironmentSchema } from '../middleware/validation';
 import { authorize } from '../middleware/authorization';
 import type { IAuthenticationRepository } from '../repository/authentication/interfaces';
 
@@ -55,7 +55,9 @@ export function createRouter(
 
   // Config routes
   router.post('/v1/admin/configs', authorize(authRepo, ['configs:write']), validate(createConfigSchema), configController.create);
+  router.put('/v1/admin/configs/:id', authorize(authRepo, ['configs:write']), validate(updateConfigSchema), configController.update);
   router.post('/v1/admin/configs/:key/rules', authorize(authRepo, ['rules:write']), validate(createRuleSchema), ruleController.assign);
+  router.put('/v1/admin/rules/:id', authorize(authRepo, ['rules:write']), validate(updateRuleSchema), ruleController.update);
 
   // Evaluate route
   router.post('/v1/evaluate', authorize(authRepo, ['configs:read']), validate(evaluateSchema), evaluateController.evaluate);

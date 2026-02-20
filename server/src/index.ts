@@ -9,8 +9,10 @@ import { PrismaRuleRepository } from './repository/rule/prisma/rule.repository';
 import { PrismaAuthenticationRepository } from './repository/authentication/prisma/authentication.repository';
 import { PrismaAuditLogRepository } from './repository/audit/prisma/audit.repository';
 import { CreateConfigUseCase } from './usecases/createConfig.usecase';
+import { UpdateConfigUseCase } from './usecases/updateConfig.usecase';
 import { PrismaEnvironmentRepository } from './repository/environment/prisma/environment.repository';
 import { AssignRuleUseCase } from './usecases/assignRule.usecase';
+import { UpdateRuleUseCase } from './usecases/updateRule.usecase';
 import { EvaluateUseCase } from './usecases/evaluate.usecase';
 import { CreateProjectUseCase } from './usecases/createProject.usecase';
 import { GetProjectUseCase, ListProjectsUseCase } from './usecases/getProject.usecase';
@@ -59,7 +61,9 @@ const auditService = new AuditService(auditRepo);
 
 // Use Cases
 const createConfigUseCase = new CreateConfigUseCase(configRepo);
+const updateConfigUseCase = new UpdateConfigUseCase(configRepo);
 const assignRuleUseCase = new AssignRuleUseCase(configRepo, ruleRepo);
+const updateRuleUseCase = new UpdateRuleUseCase(configRepo, ruleRepo);
 const evaluateUseCase = new EvaluateUseCase(configRepo);
 const createProjectUseCase = new CreateProjectUseCase(projectRepo);
 const getProjectUseCase = new GetProjectUseCase(projectRepo);
@@ -84,8 +88,8 @@ const updateEnvUseCase = new UpdateEnvironmentUseCase(environmentRepo);
 const deleteEnvUseCase = new DeleteEnvironmentUseCase(environmentRepo);
 
 // Controllers
-const configController = new ConfigController(createConfigUseCase, auditService);
-const ruleCtrl = new RuleCtrl(assignRuleUseCase, auditService);
+const configController = new ConfigController(createConfigUseCase, updateConfigUseCase, auditService);
+const ruleCtrl = new RuleCtrl(assignRuleUseCase, updateRuleUseCase, auditService);
 const evaluateController = new EvaluateController(evaluateUseCase);
 const projectController = new ProjectController(createProjectUseCase, getProjectUseCase, listProjectsUseCase, updateProjectUseCase, deleteProjectUseCase);
 const roleController = new RoleController(createRoleUseCase, getRoleUseCase, listRolesUseCase, updateRoleUseCase, deleteRoleUseCase);

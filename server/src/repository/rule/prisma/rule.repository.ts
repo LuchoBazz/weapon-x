@@ -1,6 +1,6 @@
 import type { PrismaClient } from '../../../generated/prisma/client';
 import type { IRuleRepository } from '../interfaces';
-import type { RuleEntity, CreateRuleDTO } from '../../../types';
+import type { RuleEntity, CreateRuleDTO, UpdateRuleDTO } from '../../../types';
 
 export class PrismaRuleRepository implements IRuleRepository {
   constructor(private prisma: PrismaClient) {}
@@ -25,12 +25,31 @@ export class PrismaRuleRepository implements IRuleRepository {
     return this.toEntity(result);
   }
 
+  async findById(id: string): Promise<RuleEntity | null> {
+    const result = await this.prisma.rule.findUnique({ where: { id } });
+    return result ? this.toEntity(result) : null;
+  }
+
   async findByConfigurationId(configurationId: string): Promise<RuleEntity[]> {
     const results = await this.prisma.rule.findMany({
       where: { configuration_id: configurationId },
       orderBy: { priority: 'asc' },
     });
     return results.map(r => this.toEntity(r));
+  }
+
+  async update(id: string, data: UpdateRuleDTO): Promise<RuleEntity> {
+    const result = await this.prisma.rule.update({
+      where: { id },
+      data: {
+        ...(data.name !== undefined && { name: data.name }),
+        ...(data.conditions !== undefined && { conditions: data.conditions as any }),
+        ...(data.return_value !== undefined && { return_value: data.return_value as any }),
+        ...(data.rollout_percentage !== undefined && { rollout_percentage: data.rollout_percentage }),
+        ...(data.priority !== undefined && { priority: data.priority }),
+      },
+    });
+    return this.toEntity(result);
   }
 
   async delete(id: string): Promise<void> {

@@ -22,6 +22,21 @@ export interface CreateRuleDTO {
   rollout_percentage?: number;
 }
 
+export interface UpdateConfigDTO {
+  description?: string;
+  is_active?: boolean;
+  default_value?: unknown;
+  validation_schema?: Record<string, unknown>;
+}
+
+export interface UpdateRuleDTO {
+  name?: string;
+  return_value?: unknown;
+  conditions?: Condition[];
+  rollout_percentage?: number;
+  priority?: number;
+}
+
 export interface EvaluateDTO {
   filters: Record<string, unknown>;
   keys: string[];

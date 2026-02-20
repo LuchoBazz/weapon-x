@@ -25,6 +25,11 @@ export class PrismaConfigRepository implements IConfigRepository {
     return this.toEntity(result);
   }
 
+  async findById(id: string): Promise<ConfigEntity | null> {
+    const result = await this.prisma.configuration.findUnique({ where: { id } });
+    return result ? this.toEntity(result) : null;
+  }
+
   async findByKey(key: string, projectReference?: string): Promise<ConfigEntity | null> {
     const where: any = { key };
     if (projectReference) where.project_reference = projectReference;
@@ -108,6 +113,7 @@ export class PrismaConfigRepository implements IConfigRepository {
         conditions: r.conditions,
         return_value: isSecret ? decrypt(String(r.return_value)) : r.return_value,
         priority: r.priority,
+        rollout_percentage: r.rollout_percentage,
         created_at: r.created_at,
         updated_at: r.updated_at,
       })),

@@ -2,6 +2,7 @@ import type { ConfigEntity, CreateConfigDTO } from '../../types';
 
 export interface IConfigRepository {
   create(data: CreateConfigDTO): Promise<ConfigEntity>;
+  findById(id: string): Promise<ConfigEntity | null>;
   findByKey(key: string, projectReference?: string): Promise<ConfigEntity | null>;
   findAll(filters?: { project_reference?: string; type?: string }): Promise<ConfigEntity[]>;
   findByKeyWithRules(key: string, projectReference?: string): Promise<ConfigEntity | null>;

@@ -31,6 +31,28 @@ export const createRuleSchema = Joi.object({
   rollout_percentage: Joi.number().integer().min(0).max(100).optional(),
 });
 
+export const updateConfigSchema = Joi.object({
+  description: Joi.string().allow('').optional(),
+  is_active: Joi.boolean().optional(),
+  default_value: Joi.any().optional(),
+  validation_schema: Joi.object().optional(),
+}).min(1);
+
+export const updateRuleSchema = Joi.object({
+  project_reference: Joi.string().max(100).optional(),
+  name: Joi.string().max(255).optional(),
+  return_value: Joi.any().optional().custom((value, helpers) => {
+    const serialized = typeof value === 'string' ? value : JSON.stringify(value);
+    if (serialized && serialized.length > 32768) {
+      return helpers.error('string.max', { limit: 32768 });
+    }
+    return value;
+  }, 'return_value length check'),
+  conditions: Joi.array().items(conditionSchema).min(1).optional(),
+  rollout_percentage: Joi.number().integer().min(0).max(100).optional(),
+  priority: Joi.number().integer().min(0).optional(),
+}).min(1);
+
 export const evaluateSchema = Joi.object({
   filters: Joi.object().required(),
   keys: Joi.array().items(Joi.string()).min(1).required(),
