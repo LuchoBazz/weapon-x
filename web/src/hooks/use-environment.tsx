@@ -1,24 +1,57 @@
-import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
 import {
-  Environment,
-  ENVIRONMENTS,
-  getEnvironmentById,
+  type SdkEnvironment,
+  fetchEnvironments,
   loadPersistedEnvironmentId,
   persistEnvironmentId,
-} from '@/lib/environments';
+} from '@/lib/environment-sdk';
 
 interface EnvironmentContextValue {
-  environment: Environment;
-  environments: Environment[];
+  environment: SdkEnvironment | null;
+  environments: SdkEnvironment[];
   setEnvironment: (id: string) => void;
+  loading: boolean;
 }
 
 const EnvironmentContext = createContext<EnvironmentContextValue | null>(null);
 
 export const EnvironmentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [envId, setEnvId] = useState(loadPersistedEnvironmentId);
+  const [environments, setEnvironments] = useState<SdkEnvironment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [envId, setEnvId] = useState<string | null>(loadPersistedEnvironmentId);
 
-  const environment = useMemo(() => getEnvironmentById(envId), [envId]);
+  useEffect(() => {
+    let mounted = true;
+    fetchEnvironments()
+      .then(envs => {
+        if (!mounted) return;
+        setEnvironments(envs);
+        setLoading(false);
+
+        // Auto-select valid fallback if persisted one is not found or none persisted
+        if (envs.length > 0) {
+          if (!envId || !envs.find(e => e.id === envId)) {
+            const fallbackId = envs[0].id;
+            setEnvId(fallbackId);
+            persistEnvironmentId(fallbackId);
+          }
+        }
+      })
+      .catch(err => {
+        console.error('[EnvironmentProvider] Failed to fetch environments:', err);
+        if (mounted) {
+          setLoading(false);
+        }
+      });
+      
+    return () => {
+      mounted = false;
+    };
+  }, []); // Only fetch on mount
+
+  const environment = useMemo(() => {
+    return environments.find(e => e.id === envId) || null;
+  }, [environments, envId]);
 
   const setEnvironment = useCallback((id: string) => {
     persistEnvironmentId(id);
@@ -26,8 +59,8 @@ export const EnvironmentProvider: React.FC<{ children: React.ReactNode }> = ({ c
   }, []);
 
   const value = useMemo(
-    () => ({ environment, environments: ENVIRONMENTS, setEnvironment }),
-    [environment, setEnvironment],
+    () => ({ environment, environments, setEnvironment, loading }),
+    [environment, environments, setEnvironment, loading],
   );
 
   return (

@@ -1,5 +1,5 @@
 import { AdminClient, EvaluationClient } from '../../../packages/sdk/src';
-import { getEnvironmentById, loadPersistedEnvironmentId } from './environments';
+import { loadPersistedEnvironmentId } from './environment-sdk';
 
 export const SDK_ENABLED = import.meta.env.VITE_ENABLE_SDK_INTEGRATION === 'true';
 
@@ -8,10 +8,10 @@ let _evaluation: EvaluationClient | null = null;
 let _currentEnvId: string | null = null;
 
 function resolveBaseUrl(): { baseUrl: string; envId: string; apiKey: string } {
-  const envId = loadPersistedEnvironmentId();
-  const env = getEnvironmentById(envId);
-  const baseUrl = import.meta.env.VITE_API_BASE_URL || env.apiBaseUrl;
-  return { baseUrl, envId, apiKey: env.apiKey };
+  const envId = loadPersistedEnvironmentId() || '';
+  const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+  const apiKey = import.meta.env.VITE_API_KEY || ''; // Fallback to global key if env key not synced
+  return { baseUrl, envId, apiKey };
 }
 
 function ensureClients(envId: string, baseUrl: string, apiKey: string) {
